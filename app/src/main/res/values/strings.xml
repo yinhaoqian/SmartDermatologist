@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Photo_Detector</string>
+    <string name="pyth_stdin">print(\"HI\")</string>
+</resources>

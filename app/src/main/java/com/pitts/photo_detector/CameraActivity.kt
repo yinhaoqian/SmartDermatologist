@@ -40,6 +40,8 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
+    private lateinit var imageFilter: (Bitmap?) -> Bitmap?
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +64,28 @@ class CameraActivity : AppCompatActivity() {
             isAnalysisToggled = !isAnalysisToggled
             viewBinding.cameImageView.visibility =
                 if (isAnalysisToggled) {
+                    Toast.makeText(this, "ANALYSIS TOGGLED ON", Toast.LENGTH_SHORT).show()
                     View.VISIBLE
                 } else {
+                    Toast.makeText(this, "ANALYSIS TOGGLED OFF", Toast.LENGTH_SHORT).show()
                     View.INVISIBLE
                 }
         }
         /* viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }*/
+
+        /**
+         * Customizable Anonymous Function for Real-Time Image Processing
+         * Here can we implement Python module to do real-time image processing
+         * by using an existing PyObject available in this activity
+         *
+         * For simplicity, implementations for Python module is yet to be made
+         *
+         * @param (this) Bitmap to be processed
+         * @return (context last line) Bitmap processed
+         */
+        imageFilter = {
+            Miscellaneous.toGrayscale(it)
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -135,32 +153,19 @@ class CameraActivity : AppCompatActivity() {
 
             val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
                 .build()
-                .also {
+                .also { it ->
                     it.setAnalyzer(ContextCompat.getMainExecutor(this)) {
-                        runOnUiThread {
-                            viewBinding.cameImageView.setImageBitmap(
-                                /**
-                                 * Customizable Anonymous Function for Real-Time Image Processing
-                                 * Here can we implement Python module to do real-time image processing
-                                 * by using an existing PyObject available in this activity
-                                 *
-                                 * For simplicity, implementations for Python module is yet to be made
-                                 *
-                                 * @param (this) Bitmap to be processed
-                                 * @return (context last line) Bitmap processed
-                                 */
-                                viewBinding.camePreviewView.bitmap?.apply {
-                                    val newBmp: Bitmap =
-                                        Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                                    Canvas(newBmp).drawBitmap(
-                                        newBmp,
-                                        0f,
-                                        0f,
-                                        Paint().setColorFilter(ColorMatrixColorFilter(ColorMatrix().apply {
-                                            setSaturation(0f)
-                                        })) as Paint?
-                                    )
-                                })
+                        val processedBitmap: Bitmap? =
+                            imageFilter.invoke(viewBinding.camePreviewView.bitmap)
+                        val encodedString: String? = Miscellaneous.BitmapToString(processedBitmap)
+                        encodedString?.let {
+                            Log.i("DECODING", it)
+                        }
+                        it.close()
+                        processedBitmap?.let {
+                            runOnUiThread {
+                                viewBinding.cameImageView.setImageBitmap(it)
+                            }
                         }
                     }
                 }
@@ -232,4 +237,5 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
+
 }

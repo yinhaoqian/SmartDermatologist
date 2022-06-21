@@ -25,6 +25,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/came_imageView"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:contentDescription="Alternative View for Processed Images"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <Button
         android:id="@+id/came_shoot"
         android:layout_width="wrap_content"
@@ -34,4 +46,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/came_previewView" />
+
+    <Button
+        android:id="@+id/came_analysisToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Whoop whoop (⑉・̆-・̆⑉) "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/came_shoot" />
 </androidx.constraintlayout.widget.ConstraintLayout>

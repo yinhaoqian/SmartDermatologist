@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Photo_Detector">
         <activity
-            android:name=".FrontActivity"
+            android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -14,17 +14,15 @@ import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.*
-import androidx.camera.video.VideoCapture
-import androidx.core.content.PermissionChecker
-import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import android.provider.MediaStore
 
 import android.content.ContentValues
+import android.graphics.*
 import android.os.Build
+import android.view.View
 import com.pitts.photo_detector.databinding.ActivityCameraBinding
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -35,10 +33,13 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
-    private var videoCapture: VideoCapture<Recorder>? = null
-    private var recording: Recording? = null
+/*    private var videoCapture: VideoCapture<Recorder>? = null
+    private var recording: Recording? = null*/
+
+    private var isAnalysisToggled: Boolean = false
 
     private lateinit var cameraExecutor: ExecutorService
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +51,23 @@ class CameraActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
         }
 
         // Set up the listeners for take photo and video capture buttons
         viewBinding.cameShoot.setOnClickListener { takePhoto() }
         viewBinding.cameBack.setOnClickListener { finish() }
-       /* viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }*/
+        viewBinding.cameAnalysisToggle.setOnClickListener {
+            isAnalysisToggled = !isAnalysisToggled
+            viewBinding.cameImageView.visibility =
+                if (isAnalysisToggled) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+        }
+        /* viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }*/
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -71,16 +82,18 @@ class CameraActivity : AppCompatActivity() {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
         }
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions
-            .Builder(contentResolver,
+            .Builder(
+                contentResolver,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                contentValues)
+                contentValues
+            )
             .build()
 
         // Set up image capture listener, which is triggered after photo has
@@ -94,7 +107,7 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun
-                        onImageSaved(output: ImageCapture.OutputFileResults){
+                        onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
@@ -103,7 +116,8 @@ class CameraActivity : AppCompatActivity() {
         )
     }
 
-   /* private fun captureVideo() {}*/
+    /* private fun captureVideo() {}*/
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -119,6 +133,38 @@ class CameraActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.camePreviewView.surfaceProvider)
                 }
 
+            val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
+                .build()
+                .also {
+                    it.setAnalyzer(ContextCompat.getMainExecutor(this)) {
+                        runOnUiThread {
+                            viewBinding.cameImageView.setImageBitmap(
+                                /**
+                                 * Customizable Anonymous Function for Real-Time Image Processing
+                                 * Here can we implement Python module to do real-time image processing
+                                 * by using an existing PyObject available in this activity
+                                 *
+                                 * For simplicity, implementations for Python module is yet to be made
+                                 *
+                                 * @param (this) Bitmap to be processed
+                                 * @return (context last line) Bitmap processed
+                                 */
+                                viewBinding.camePreviewView.bitmap?.apply {
+                                    val newBmp: Bitmap =
+                                        Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                                    Canvas(newBmp).drawBitmap(
+                                        newBmp,
+                                        0f,
+                                        0f,
+                                        Paint().setColorFilter(ColorMatrixColorFilter(ColorMatrix().apply {
+                                            setSaturation(0f)
+                                        })) as Paint?
+                                    )
+                                })
+                        }
+                    }
+                }
+
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -130,9 +176,10 @@ class CameraActivity : AppCompatActivity() {
 /*                cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview)*/
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, preview, imageCapture, imageAnalysis
+                )
 
-            } catch(exc: Exception) {
+            } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
@@ -143,7 +190,8 @@ class CameraActivity : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+            baseContext, it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onDestroy() {
@@ -156,7 +204,7 @@ class CameraActivity : AppCompatActivity() {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
-            mutableListOf (
+            mutableListOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
             ).apply {
@@ -168,15 +216,18 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
+        IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
+                Toast.makeText(
+                    this,
                     "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
         }

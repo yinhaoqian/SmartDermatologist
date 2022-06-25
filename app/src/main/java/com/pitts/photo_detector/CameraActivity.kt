@@ -40,7 +40,9 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
-    private lateinit var imageFilter: (Bitmap?) -> Bitmap?
+    private var pytorchModule: PytorchModule = PytorchModule()
+
+    private lateinit var imageFilter: (Bitmap?) -> FloatArray?
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +86,7 @@ class CameraActivity : AppCompatActivity() {
          * @return (context last line) Bitmap processed
          */
         imageFilter = {
-            Miscellaneous.toGrayscale(it)
+            PytorchModule.
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()

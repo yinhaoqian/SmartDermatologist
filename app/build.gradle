@@ -39,6 +39,11 @@ android {
         enabled true
     }
 
+    sourceSets {
+        main{
+            resources.includes = ['src/main/res/torchnetwork/testmodel.pth']
+        }
+    }
 
 }
 

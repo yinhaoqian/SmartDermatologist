@@ -24,6 +24,8 @@ import android.graphics.*
 import android.os.Build
 import android.view.View
 import com.pitts.photo_detector.databinding.ActivityCameraBinding
+import java.io.File
+import java.io.IOException
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -40,15 +42,37 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
-    private var pytorchModule: PytorchModule = PytorchModule()
+    private lateinit var pytorchModule: PytorchModule
 
-    private lateinit var imageFilter: (Bitmap?) -> FloatArray?
+    private lateinit var imageFilter: (Bitmap?) -> Bitmap?
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+/*        // Copy pth file to cache for future uses
+        var cacheFile: File = run {
+            File(this.cacheDir, "testmodel.pth")
+                .also {
+                    it.outputStream().use { cache ->
+                        this.assets.open("testmodel.pth").use {
+                            it.copyTo(
+                                cache
+                            )
+                        }
+                    }
+                }
+        }*/
+
+        // Load the model file into torch model
+        try{
+            pytorchModule = PytorchModule(this, "testmodel.pth")
+        } catch (e:IOException){
+            Log.e("TORCH","Cannot found pth file from assets folder :(")
+            finish()
+        }
+
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -83,10 +107,18 @@ class CameraActivity : AppCompatActivity() {
          * For simplicity, implementations for Python module is yet to be made
          *
          * @param (this) Bitmap to be processed
-         * @return (context last line) Bitmap processed
+         * @return (context last line) Floatarray processed
          */
         imageFilter = {
-            PytorchModule.
+            if (isAnalysisToggled) {
+                it?.also {
+                    val receivedFloatArray = pytorchModule.runInference(it)
+                    Log.i("TORCH", receivedFloatArray.toString())
+                }
+            } else {
+                it
+            }
+            //Add your code here if you want to modify Bitmap Contents
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()

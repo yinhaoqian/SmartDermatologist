@@ -3,6 +3,7 @@ package com.pitts.photo_detector
 import android.content.Context
 import android.graphics.Bitmap
 import org.pytorch.IValue
+import org.pytorch.LiteModuleLoader
 import org.pytorch.Module
 import org.pytorch.Tensor
 import org.pytorch.torchvision.TensorImageUtils
@@ -10,14 +11,39 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class PytorchModule() {
-    private var ready: Boolean = false
+class PytorchModule(context: Context, modelName: String) {
     private lateinit var ptModule: Module
+/*    private var bitmap: Bitmap? = null
+    private var floatArray: FloatArray? = null*/
+/*    public var inferator: Runnable = Runnable {
+        floatArray = bitmap?.run {
+            bitmap = null
+            runInference(this).also {
+                Log.i("TORCH", it.toString())
+            }
+        }
 
-    fun loadModel(context: Context, filePath: String): Unit {
-        ptModule = Module.load(assetFilePath(context, filePath))
-        ready = true
+    }*/
+
+    init {
+        ptModule = LiteModuleLoader.load(assetFilePath(context, modelName))
     }
+/*
+    fun writeBitmap(bitmap: Bitmap) {
+        while (this.bitmap != null) {
+            Log.d("TORCH", "Inject Task Scheduled but waiting")
+        }
+        this.bitmap = bitmap
+    }
+
+    fun readFloatArray(): FloatArray {
+        while (this.floatArray == null) {
+            Log.d("TORCH", "Extract Task Scheduled but waiting")
+        }
+        return this.floatArray!!.also {
+            this.floatArray = null
+        }
+    }*/
 
     fun runInference(bitmap: Bitmap): FloatArray {
         val TENSOR_INPUT = bitmapToTensors(bitmap)
@@ -39,7 +65,6 @@ class PytorchModule() {
     }
 
     private fun runInferenceTensor2Tensor(tensor: Tensor): Tensor {
-        if (ready.not()) throw Exception("Pytorch Module is NOT Initialized.")
         return ptModule.forward(IValue.from(tensor)).toTensor()
     }
 

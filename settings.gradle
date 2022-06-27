@@ -4,6 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         maven { url "https://chaquo.com/maven" }
+        jcenter()
     }
     plugins {
         id 'com.android.application' version '7.1.0-alpha13'

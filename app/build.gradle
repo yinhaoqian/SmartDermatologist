@@ -35,7 +35,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    dataBinding{
+    dataBinding {
         enabled true
     }
 
@@ -60,4 +60,7 @@ dependencies {
     implementation "androidx.camera:camera-video:${camerax_version}"
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    implementation 'org.pytorch:pytorch_android_lite:1.9.0'
+    implementation 'org.pytorch:pytorch_android_torchvision:1.9.0'
 }

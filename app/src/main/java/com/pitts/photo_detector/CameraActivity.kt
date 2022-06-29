@@ -3,29 +3,28 @@ package com.pitts.photo_detector
 /*findViewById<ImageView>(R.id.came_back).setOnClickListener {
     finish()
 }*/
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+
 import android.Manifest
+import android.content.ContentValues
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.os.Build
+import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import java.util.concurrent.Executors
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.pitts.photo_detector.databinding.ActivityCameraBinding
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
-import android.provider.MediaStore
-
-import android.content.ContentValues
-import android.graphics.*
-import android.os.Build
-import android.view.View
-import com.pitts.photo_detector.databinding.ActivityCameraBinding
-import java.io.File
-import java.io.IOException
+import java.util.concurrent.Executors
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -66,10 +65,10 @@ class CameraActivity : AppCompatActivity() {
         }*/
 
         // Load the model file into torch model
-        try{
-            pytorchModule = PytorchModule(this, "testmodel.pth")
-        } catch (e:IOException){
-            Log.e("TORCH","Cannot found pth file from assets folder :(")
+        try {
+            pytorchModule = PytorchModule(this, "model.ptl")
+        } catch (e: IOException) {
+            Log.e("TORCH", "Cannot found pth file from assets folder :(")
             finish()
         }
 
@@ -114,6 +113,7 @@ class CameraActivity : AppCompatActivity() {
                 it?.also {
                     val receivedFloatArray = pytorchModule.runInference(it)
                     Log.i("TORCH", receivedFloatArray.toString())
+                    receivedFloatArray.forEach { Log.i("TORCH", it.toString()) }
                 }
             } else {
                 it

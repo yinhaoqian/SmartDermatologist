@@ -16,6 +16,9 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
+        python {
+            buildPython "C:/Devs/Python/python.exe"
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,8 +44,12 @@ android {
 
     sourceSets {
         main{
-            resources.includes = ['src/main/res/torchnetwork/testmodel.pth']
+            resources.includes = ['src/main/res/torchnetwork/model.ptl']
         }
+    }
+
+    packagingOptions {
+        pickFirst '**/*.so'
     }
 
 }
@@ -66,6 +73,6 @@ dependencies {
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
-    implementation 'org.pytorch:pytorch_android_lite:1.9.0'
-    implementation 'org.pytorch:pytorch_android_torchvision:1.9.0'
+    implementation 'org.pytorch:pytorch_android_lite:1.10.0'
+    implementation 'org.pytorch:pytorch_android_torchvision_lite:1.10.0'
 }

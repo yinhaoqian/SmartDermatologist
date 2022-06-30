@@ -45,11 +45,15 @@ class PytorchModule(context: Context, modelName: String) {
         }
     }*/
 
-    fun runInference(bitmap: Bitmap): FloatArray {
+    fun runInference(bitmap: Bitmap): Int {
         val TENSOR_INPUT = bitmapToTensors(bitmap)
         val TENSOR_OUTPUT = runInferenceTensor2Tensor(TENSOR_INPUT)
         val FARRAY_OUTPUT = tensorsToFloatArray(TENSOR_OUTPUT)
-        return FARRAY_OUTPUT
+        return locateMaxIndex(FARRAY_OUTPUT)
+    }
+
+    private fun locateMaxIndex(arr: FloatArray): Int {
+        return arr.indexOfFirst { it == arr.maxOrNull() }
     }
 
     private fun bitmapToTensors(bitmap: Bitmap): Tensor {

@@ -5,6 +5,7 @@ package com.pitts.photo_detector
 }*/
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,10 +13,12 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.*
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -37,7 +40,7 @@ class CameraActivity : AppCompatActivity() {
 /*    private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null*/
 
-    private var isAnalysisToggled: Boolean = false
+    private var isAnalysisToggled: Boolean = true
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -46,6 +49,7 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var imageFilter: (Bitmap?) -> Bitmap?
 
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
@@ -66,7 +70,7 @@ class CameraActivity : AppCompatActivity() {
 
         // Load the model file into torch model
         try {
-            pytorchModule = PytorchModule(this, "model.ptl")
+            pytorchModule = PytorchModule(this, "big_model.ptl")
         } catch (e: IOException) {
             Log.e("TORCH", "Cannot found pth file from assets folder :(")
             finish()
@@ -86,7 +90,7 @@ class CameraActivity : AppCompatActivity() {
         viewBinding.cameShoot.setOnClickListener { takePhoto() }
         viewBinding.cameBack.setOnClickListener { finish() }
         viewBinding.cameAnalysisToggle.setOnClickListener {
-            isAnalysisToggled = !isAnalysisToggled
+/*            isAnalysisToggled = !isAnalysisToggled
             viewBinding.cameImageView.visibility =
                 if (isAnalysisToggled) {
                     Toast.makeText(this, "ANALYSIS TOGGLED ON", Toast.LENGTH_SHORT).show()
@@ -94,7 +98,21 @@ class CameraActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this, "ANALYSIS TOGGLED OFF", Toast.LENGTH_SHORT).show()
                     View.INVISIBLE
+                }*/
+            var capturedBitmap: Bitmap? = null
+            while (capturedBitmap == null) {
+                capturedBitmap = viewBinding.camePreviewView.bitmap
+            }
+            viewBinding.cameDetectResult.text = "PROCESSING...."
+            val receivedIndex: Int = pytorchModule.runInference(capturedBitmap)
+            viewBinding.cameDetectResult.text =
+                when (receivedIndex) {
+                    0 -> "KITTENS"
+                    1 -> "PUPPIES"
+                    else -> "UNRECOGNIZED"
                 }
+
+
         }
         /* viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }*/
 
@@ -109,15 +127,18 @@ class CameraActivity : AppCompatActivity() {
          * @return (context last line) Floatarray processed
          */
         imageFilter = {
-            if (isAnalysisToggled) {
-                it?.also {
-                    val receivedFloatArray = pytorchModule.runInference(it)
-                    Log.i("TORCH", receivedFloatArray.toString())
-                    receivedFloatArray.forEach { Log.i("TORCH", it.toString()) }
+            it
+/*            if (isAnalysisToggled) {*/
+/*                it?.also {
+                    val receivedIndex = pytorchModule.runInference(it)
+                    Log.i("TORCH_RESULT", receivedIndex.toString())
+                    viewBinding.cameDetectResult.text = run {
+
+                    }
                 }
             } else {
                 it
-            }
+            }*/
             //Add your code here if you want to modify Bitmap Contents
         }
 
@@ -184,7 +205,7 @@ class CameraActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(viewBinding.camePreviewView.surfaceProvider)
                 }
-
+/*
             val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
                 .build()
                 .also { it ->
@@ -202,7 +223,7 @@ class CameraActivity : AppCompatActivity() {
                             }
                         }
                     }
-                }
+                }*/
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -215,7 +236,7 @@ class CameraActivity : AppCompatActivity() {
 /*                cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview)*/
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalysis
+                    this, cameraSelector, preview, imageCapture
                 )
 
             } catch (exc: Exception) {

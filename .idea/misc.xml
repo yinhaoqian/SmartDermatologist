@@ -3,8 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/layout/activity_camera.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable/blue_button.xml" value="0.1105" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable/bt_configuration.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable/bt_session.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/drawable/test.xml" value="0.1" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/layout/activity_camera.xml" value="0.25" />
         <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/layout/activity_front.xml" value="0.1408514492753623" />
+        <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="..\:/Academics/SM2022/SUMM2022_ECE1898/app/src/main/res/layout/activity_python.xml" value="0.1408514492753623" />
         <entry key="..\:/SM2022/Photo_Detector/app/src/main/res/layout/activity_camera.xml" value="0.297554347826087" />
         <entry key="..\:/SM2022/Photo_Detector/app/src/main/res/layout/activity_camera_preview.xml" value="0.29583333333333334" />

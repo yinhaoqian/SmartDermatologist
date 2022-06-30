@@ -4,6 +4,7 @@ package com.pitts.photo_detector
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
@@ -36,10 +37,12 @@ class activity_camnew : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private var allViews: MutableSet<View> = mutableSetOf()
 
+    private var fakeIndex: Int = 0
     private lateinit var cameraExecutor: ExecutorService
 
     private lateinit var pytorchModule: PytorchModule
 
+    private var PICK_IMAGE = 0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +75,6 @@ class activity_camnew : AppCompatActivity() {
                     AnimationUtils.loadAnimation(this, R.anim.buttonpush_bounce)
                 (it as ImageView).startAnimation(animation)
                 takePhoto()
-
             }
         })
         allViews.add(viewBinding.buttCamnewSwitchcamera.also {
@@ -80,9 +82,14 @@ class activity_camnew : AppCompatActivity() {
         })
         allViews.add(viewBinding.buttCamnewImportfromgallery.also {
             it.setOnClickListener {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.type = "image/*"
+                startActivityForResult(intent, PICK_IMAGE)
             }
         })
-
+        viewBinding.prevCamnewPreviewView.setOnClickListener {
+            fakeIndex += 1
+        }
         /*allViews.add(viewBinding.prevCamnewPreviewView)*/
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -126,6 +133,30 @@ class activity_camnew : AppCompatActivity() {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    val cursor =
+                        output.savedUri?.let {
+                            contentResolver.query(
+                                it,
+                                filePathColumn,
+                                null,
+                                null,
+                                null
+                            )
+                        }
+                    cursor?.moveToFirst()
+                    val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
+                    val picturePath = columnIndex?.let { cursor?.getString(it) }
+
+                    if (picturePath != null) {
+                        Log.e(TAG, picturePath)
+                    }
+                    startActivity(Intent(this@activity_camnew, activity_result::class.java).apply {
+                        putExtra("path", picturePath)
+                        putExtra("RESULT_INDEX", "DISEASE_TITLE")
+                    })
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
             }
         )
@@ -227,6 +258,7 @@ class activity_camnew : AppCompatActivity() {
         allViews.forEach {
             it.animate().alpha(1.0f).setDuration(1000).start();
         }
+        fakeIndex = 0
     }
 
     override fun onPause() {
@@ -234,6 +266,7 @@ class activity_camnew : AppCompatActivity() {
         allViews.forEach {
             it.animate().alpha(0.0f).setDuration(1000).start();
         }
+        fakeIndex = 0
     }
 
     fun getBitmapFromPreviewview(): Bitmap {
@@ -241,6 +274,30 @@ class activity_camnew : AppCompatActivity() {
         while (capturedBitmap == null) {
             capturedBitmap = viewBinding.prevCamnewPreviewView.bitmap
         }
-        return capturedBitmap
+        return getResizedBitmap(capturedBitmap, 500)
+    }
+
+    fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+        var width = image.width
+        var height = image.height
+        val bitmapRatio = width.toFloat() / height.toFloat()
+        if (bitmapRatio > 1) {
+            width = maxSize
+            height = (width / bitmapRatio).toInt()
+        } else {
+            height = maxSize
+            width = (height * bitmapRatio).toInt()
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                PICK_IMAGE -> Toast.makeText(baseContext, "PICK_IMAGE:" + data, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 }

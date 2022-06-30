@@ -7,6 +7,21 @@
     android:background="#FFFFFF"
     tools:context=".activity_result">
 
+    <TextView
+        android:id="@+id/text_result_diseaseTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="TextView"
+        android:elevation="2dp"
+        android:visibility="visible"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="1.0" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -58,20 +73,24 @@
             android:id="@+id/imag_result_imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_background" />
 
 
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/text_diseaseTitle"
+        android:id="@+id/text_result_diseaseDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="TextView"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        android:elevation="2dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="48sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toBottomOf="@+id/text_result_diseaseTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

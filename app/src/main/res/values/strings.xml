@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Photo_Detector</string>
-    <string name="pyth_stdin">print(\"HI\")</string>
+    <string name="disease_error">ERROR</string>
+    <string name="disease_eczema_title">Eczema</string>
+    <string name="disease_eczema_detail">Atopic eczema (atopic dermatitis) is the most common form of eczema, a condition that causes the skin to become itchy, dry and cracked.</string>
+    <string name="disease_psoriasis_title">Psoriasis</string>
+    <string name="disease_psoriasis_detail">Psoriasis is a skin disease that causes a rash with itchy, scaly patches, most commonly on the knees, elbows, trunk and scalp. </string>
+    <string name="disease_rosacea_title">Rosacea</string>
+    <string name="disease_rosacea_detail">Rosacea is a common skin condition that causes blushing or flushing and visible blood vessels in your face. </string>
 </resources>

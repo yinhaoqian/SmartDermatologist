@@ -18,23 +18,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Photo_Detector">
         <activity
-            android:name=".activity_camnew"
+            android:name=".activity_result"
             android:exported="true" />
         <activity
+            android:name=".activity_camnew"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity_main"
-            android:exported="true">
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PythonActivity"
-            android:exported="true" />
-        <activity
-            android:name=".CameraActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

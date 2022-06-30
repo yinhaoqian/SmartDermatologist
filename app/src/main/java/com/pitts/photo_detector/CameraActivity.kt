@@ -1,8 +1,5 @@
 package com.pitts.photo_detector
 
-/*findViewById<ImageView>(R.id.came_back).setOnClickListener {
-    finish()
-}*/
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -23,13 +20,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.pitts.photo_detector.databinding.ActivityCameraBinding
+import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
-typealias LumaListener = (luma: Double) -> Unit
 
 
 class CameraActivity : AppCompatActivity() {
@@ -37,16 +33,9 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
-/*    private var videoCapture: VideoCapture<Recorder>? = null
-    private var recording: Recording? = null*/
-
-    private var isAnalysisToggled: Boolean = true
-
     private lateinit var cameraExecutor: ExecutorService
 
     private lateinit var pytorchModule: PytorchModule
-
-    private lateinit var imageFilter: (Bitmap?) -> Bitmap?
 
 
     @SuppressLint("SetTextI18n")
@@ -54,7 +43,7 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-/*        // Copy pth file to cache for future uses
+        // Copy pth file to cache for future uses
         var cacheFile: File = run {
             File(this.cacheDir, "testmodel.pth")
                 .also {
@@ -66,7 +55,8 @@ class CameraActivity : AppCompatActivity() {
                         }
                     }
                 }
-        }*/
+        }
+
 
         // Load the model file into torch model
         try {
@@ -90,18 +80,10 @@ class CameraActivity : AppCompatActivity() {
         viewBinding.cameShoot.setOnClickListener { takePhoto() }
         viewBinding.cameBack.setOnClickListener { finish() }
         viewBinding.cameAnalysisToggle.setOnClickListener {
-/*            isAnalysisToggled = !isAnalysisToggled
-            viewBinding.cameImageView.visibility =
-                if (isAnalysisToggled) {
-                    Toast.makeText(this, "ANALYSIS TOGGLED ON", Toast.LENGTH_SHORT).show()
-                    View.VISIBLE
-                } else {
-                    Toast.makeText(this, "ANALYSIS TOGGLED OFF", Toast.LENGTH_SHORT).show()
-                    View.INVISIBLE
-                }*/
+
             var capturedBitmap: Bitmap? = null
             while (capturedBitmap == null) {
-                capturedBitmap = viewBinding.camePreviewView.bitmap
+                capturedBitmap = viewBinding.prevCamnewPreviewView.bitmap
             }
             viewBinding.cameDetectResult.text = "PROCESSING...."
             val receivedIndex: Int = pytorchModule.runInference(capturedBitmap)
@@ -114,33 +96,12 @@ class CameraActivity : AppCompatActivity() {
 
 
         }
-        /* viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }*/
 
-        /**
-         * Customizable Anonymous Function for Real-Time Image Processing
-         * Here can we implement Python module to do real-time image processing
-         * by using an existing PyObject available in this activity
-         *
-         * For simplicity, implementations for Python module is yet to be made
-         *
-         * @param (this) Bitmap to be processed
-         * @return (context last line) Floatarray processed
-         */
-        imageFilter = {
-            it
-/*            if (isAnalysisToggled) {*/
-/*                it?.also {
-                    val receivedIndex = pytorchModule.runInference(it)
-                    Log.i("TORCH_RESULT", receivedIndex.toString())
-                    viewBinding.cameDetectResult.text = run {
 
-                    }
-                }
-            } else {
-                it
-            }*/
-            //Add your code here if you want to modify Bitmap Contents
-        }
+
+
+
+
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -189,8 +150,6 @@ class CameraActivity : AppCompatActivity() {
         )
     }
 
-    /* private fun captureVideo() {}*/
-
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -203,27 +162,9 @@ class CameraActivity : AppCompatActivity() {
             val preview = Preview.Builder()
                 .build()
                 .also {
-                    it.setSurfaceProvider(viewBinding.camePreviewView.surfaceProvider)
+                    it.setSurfaceProvider(viewBinding.prevCamnewPreviewView.surfaceProvider)
                 }
-/*
-            val imageAnalysis: ImageAnalysis = ImageAnalysis.Builder()
-                .build()
-                .also { it ->
-                    it.setAnalyzer(ContextCompat.getMainExecutor(this)) {
-                        val processedBitmap: Bitmap? =
-                            imageFilter.invoke(viewBinding.camePreviewView.bitmap)
-                        val encodedString: String? = Miscellaneous.BitmapToString(processedBitmap)
-                        encodedString?.let {
-                            Log.i("DECODING", it)
-                        }
-                        it.close()
-                        processedBitmap?.let {
-                            runOnUiThread {
-                                viewBinding.cameImageView.setImageBitmap(it)
-                            }
-                        }
-                    }
-                }*/
+
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -233,8 +174,10 @@ class CameraActivity : AppCompatActivity() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-/*                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)*/
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview
+                )
+
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
@@ -292,5 +235,4 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
-
 }

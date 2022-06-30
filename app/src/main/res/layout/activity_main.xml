@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -48,15 +48,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:alpha="0"
         android:background="#00FFFFFF"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/butt_main_userpreference"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/guideline3"
-        app:srcCompat="@drawable/btn_startnewsession" />
+        app:srcCompat="@drawable/btn_startnewsession"
+        tools:ignore="UsingOnClickInXml" />
 
     <ImageButton
         android:id="@+id/butt_main_userpreference"
@@ -65,7 +67,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:background="#00FFFFFF"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
+        android:alpha="0"
         app:layout_constraintBottom_toTopOf="@+id/butt_main_aboutsoftware"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.5"
@@ -81,7 +84,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:background="#00FFFFFF"
-        android:scaleType="centerInside"
+        android:alpha="0"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.5"
@@ -95,6 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
+        android:alpha="0"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline2"

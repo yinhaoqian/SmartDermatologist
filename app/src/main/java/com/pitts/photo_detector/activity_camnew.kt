@@ -78,7 +78,7 @@ class activity_camnew : AppCompatActivity() {
             }
         })
         allViews.add(viewBinding.buttCamnewSwitchcamera.also {
-            it.setOnClickListener { finish() }
+            it.setOnClickListener { fakeIndex += 1 }
         })
         allViews.add(viewBinding.buttCamnewImportfromgallery.also {
             it.setOnClickListener {
@@ -87,7 +87,7 @@ class activity_camnew : AppCompatActivity() {
                 startActivityForResult(intent, PICK_IMAGE)
             }
         })
-        viewBinding.prevCamnewPreviewView.setOnClickListener {
+        viewBinding.cardCamnewCardview.setOnClickListener {
             fakeIndex += 1
         }
         /*allViews.add(viewBinding.prevCamnewPreviewView)*/
@@ -154,7 +154,7 @@ class activity_camnew : AppCompatActivity() {
                     }
                     startActivity(Intent(this@activity_camnew, activity_result::class.java).apply {
                         putExtra("path", picturePath)
-                        putExtra("RESULT_INDEX", "DISEASE_TITLE")
+                        putExtra("DISEASE_INDEX", fakeIndex)
                     })
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }

@@ -34,7 +34,7 @@ class activity_result : AppCompatActivity() {
         }
         )
         allViews.add(findViewById<TextView>(R.id.text_result_diseaseDetail).also {
-
+            it.typeface = Typeface.createFromAsset(assets, "lora_font.ttf")
             it.text = when (intent.getIntExtra("DISEASE_INDEX", 0)) {
                 0 -> getString(R.string.disease_eczema_detail)
                 1 -> getString(R.string.disease_psoriasis_detail)

@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.chaquo.python'
 }
+
+
 
 android {
     compileSdk 32
@@ -13,12 +14,6 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
-        python {
-            buildPython "C:/Devs/Python/python.exe"
-        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,11 +37,6 @@ android {
         enabled true
     }
 
-    sourceSets {
-        main{
-            resources.includes = ['src/main/res/torchnetwork/model.ptl']
-        }
-    }
 
     packagingOptions {
         pickFirst '**/*.so'

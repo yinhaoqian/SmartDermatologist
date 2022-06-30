@@ -1,11 +1,26 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        google()
+/*        google()
         mavenCentral()
-        maven { url "https://chaquo.com/maven" }
-        jcenter()
-
+        jcenter()*/
+        maven {
+            url 'http://maven.aliyun.com/repository/google'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public'
+            allowInsecureProtocol = true
+        }
+        maven { url "https://jitpack.io" }
     }
     plugins {
         id 'com.android.application' version '7.1.0-alpha13'

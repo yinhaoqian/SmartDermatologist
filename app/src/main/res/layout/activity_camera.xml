@@ -17,14 +17,13 @@
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <androidx.camera.view.PreviewView
-        android:id="@+id/came_previewView"
+        android:id="@+id/prev_camnew_previewView"
         android:layout_width="320dp"
         android:layout_height="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <Button
@@ -34,8 +33,9 @@
         android:text="Shoot shoot (◍•ᴗ•◍)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/came_previewView" />
+        app:layout_constraintTop_toBottomOf="@+id/prev_camnew_previewView" />
 
     <Button
         android:id="@+id/came_analysisToggle"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="Result will display here"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/came_previewView"
+        app:layout_constraintBottom_toTopOf="@+id/prev_camnew_previewView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

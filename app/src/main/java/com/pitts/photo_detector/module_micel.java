@@ -12,7 +12,7 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-public class Miscellaneous {
+public class module_micel {
     /**
      * Copied directly from https://stackoverflow.com/questions/3373860/convert-a-bitmap-to-grayscale-in-android
      *

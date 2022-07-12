@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Photo_Detector</string>
+    <string name="disease_loading_title">Calculating....</string>
+    <string name="disease_loading_detail">Results will be shown once the calculation is complete…</string>
     <string name="disease_error">ERROR</string>
     <string name="disease_eczema_title">Eczema</string>
     <string name="disease_eczema_detail">Atopic eczema (atopic dermatitis) is the most common form of eczema, a condition that causes the skin to become itchy, dry and cracked.</string>

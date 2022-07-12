@@ -25,7 +25,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.pitts.photo_detector.databinding.ActivityCamnewBinding
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -40,7 +39,7 @@ class activity_camnew : AppCompatActivity() {
     private var fakeIndex: Int = 0
     private lateinit var cameraExecutor: ExecutorService
 
-    private lateinit var pytorchModule: PytorchModule
+/*    private lateinit var pytorchModule: module_pytorch*/
 
     private var PICK_IMAGE = 0
 
@@ -50,13 +49,13 @@ class activity_camnew : AppCompatActivity() {
         viewBinding = ActivityCamnewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         supportActionBar?.hide()
-        // Load the model file into torch model
+        /*// Load the model file into torch model
         try {
-            pytorchModule = PytorchModule(this, "big_model.ptl")
+            pytorchModule = module_pytorch(this, "big_model.ptl")
         } catch (e: IOException) {
             Log.e("TORCH", "Cannot found pth file from assets folder :(")
             finish()
-        }
+        }*/
 
 
         // Request camera permissions

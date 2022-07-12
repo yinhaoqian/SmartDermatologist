@@ -11,7 +11,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
-class PytorchModule(context: Context, modelName: String) {
+class module_pytorch(context: Context, modelName: String) {
     private lateinit var ptModule: Module
 /*    private var bitmap: Bitmap? = null
     private var floatArray: FloatArray? = null*/

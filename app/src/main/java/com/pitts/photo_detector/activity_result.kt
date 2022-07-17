@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
@@ -22,7 +23,10 @@ class activity_result : AppCompatActivity() {
         1 to Pair(R.string.disease_eczema_title, R.string.disease_eczema_detail),
         2 to Pair(R.string.disease_rosacea_title, R.string.disease_rosacea_detail)
     )
-    private var inferAndDisplay: Runnable = Runnable {
+
+    private fun inferAndDisplay() {
+        Log.d("RESULT_IAD", "inferAndDisplay called")
+        Toast.makeText(this, "IAD INITIATED", Toast.LENGTH_SHORT).show()
         imageBuffer?.let {
             resultIndex = pytorchModule.runInference(it).inc()
             val returnedStringLocation: Pair<Int, Int>? = indexDict[resultIndex]
@@ -31,19 +35,15 @@ class activity_result : AppCompatActivity() {
             findViewById<TextView>(R.id.text_result_diseaseDetail).text =
                 getString(returnedStringLocation?.second ?: R.string.disease_error)
         }
+        Log.d("RESULT_IAD", "inferAndDisplay ended")
+        Toast.makeText(this, "IAD ENDED", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
         supportActionBar?.hide()
-        // Load the model file into torch model
-        try {
-            pytorchModule = module_pytorch(this, "big_model.ptl")
-        } catch (e: IOException) {
-            Log.e("TORCH", "Cannot found pth file from assets folder :(")
-            finish()
-        }
+
 
         val picturePath = intent.getStringExtra("path")
         Log.e("debug", picturePath.toString())
@@ -62,8 +62,15 @@ class activity_result : AppCompatActivity() {
             it.text = getString(R.string.disease_loading_detail)
         })
         imageBuffer = bm
-        Thread() {
-            inferAndDisplay
+        // Load the model file into torch model
+        try {
+            pytorchModule = module_pytorch(this, "big_model.ptl")
+        } catch (e: IOException) {
+            Log.e("TORCH", "Cannot found pth file from assets folder :(")
+            finish()
+        }
+        Thread(){
+            inferAndDisplay()
         }.run()
     }
 

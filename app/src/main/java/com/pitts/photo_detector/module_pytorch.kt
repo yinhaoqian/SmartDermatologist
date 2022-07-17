@@ -2,6 +2,7 @@ package com.pitts.photo_detector
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
 import org.pytorch.Module
@@ -49,6 +50,7 @@ class module_pytorch(context: Context, modelName: String) {
         val TENSOR_INPUT = bitmapToTensors(bitmap)
         val TENSOR_OUTPUT = runInferenceTensor2Tensor(TENSOR_INPUT)
         val FARRAY_OUTPUT = tensorsToFloatArray(TENSOR_OUTPUT)
+        FARRAY_OUTPUT.forEach { Log.d("PYTORCH_ARRAY", it.toString()) }
         return locateMaxIndex(FARRAY_OUTPUT)
     }
 

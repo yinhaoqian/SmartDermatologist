@@ -155,7 +155,7 @@ class activity_camnew : AppCompatActivity() {
                         putExtra("path", picturePath)
                         putExtra("DISEASE_INDEX", fakeIndex)
                     })
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    overridePendingTransition(0, 0)
                 }
             }
         )

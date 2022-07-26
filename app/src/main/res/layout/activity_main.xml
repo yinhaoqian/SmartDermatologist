@@ -8,35 +8,35 @@
     tools:context=".activity_main">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/guid_rcp_10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/guid_rcp_90"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guid_rcp_30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/guid_rcp_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guid_rcp_40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -52,11 +52,11 @@
         android:background="#00FFFFFF"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/butt_main_userpreference"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guid_rcp_90"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3"
+        app:layout_constraintStart_toEndOf="@+id/guid_rcp_10"
+        app:layout_constraintStart_toStartOf="@+id/guid_rcp_10"
+        app:layout_constraintTop_toBottomOf="@+id/guid_rcp_30"
         app:srcCompat="@drawable/btn_startnewsession"
         tools:ignore="UsingOnClickInXml" />
 
@@ -70,10 +70,10 @@
         android:scaleType="fitCenter"
         android:alpha="0"
         app:layout_constraintBottom_toTopOf="@+id/butt_main_aboutsoftware"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guid_rcp_90"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/guid_rcp_10"
+        app:layout_constraintStart_toStartOf="@+id/guid_rcp_10"
         app:layout_constraintTop_toBottomOf="@+id/butt_main_startnewsession"
         app:srcCompat="@drawable/btn_userpreferences" />
 
@@ -86,11 +86,11 @@
         android:background="#00FFFFFF"
         android:alpha="0"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guid_rcp_40"
+        app:layout_constraintEnd_toStartOf="@+id/guid_rcp_90"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toEndOf="@+id/guid_rcp_10"
+        app:layout_constraintStart_toStartOf="@+id/guid_rcp_10"
         app:layout_constraintTop_toBottomOf="@+id/butt_main_userpreference"
         app:srcCompat="@drawable/btn_aboutsoftware" />
 
@@ -100,10 +100,10 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:alpha="0"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintBottom_toTopOf="@+id/guid_rcp_30"
+        app:layout_constraintEnd_toStartOf="@+id/guid_rcp_90"
+        app:layout_constraintStart_toStartOf="@+id/guid_rcp_10"
+        app:layout_constraintTop_toTopOf="@+id/guid_rcp_5"
         app:srcCompat="@drawable/other_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

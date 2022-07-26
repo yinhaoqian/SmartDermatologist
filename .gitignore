@@ -14,3 +14,6 @@
 .cxx
 local.properties
 .idea/vcs.xml
+*.ptl
+*.ptl
+app/src/main/assets/big_model.ptl

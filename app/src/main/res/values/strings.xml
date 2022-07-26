@@ -3,10 +3,15 @@
     <string name="disease_loading_title">Calculating....</string>
     <string name="disease_loading_detail">Results will be shown once the calculation is complete…</string>
     <string name="disease_error">ERROR</string>
-    <string name="disease_eczema_title">Eczema</string>
-    <string name="disease_eczema_detail">Atopic eczema (atopic dermatitis) is the most common form of eczema, a condition that causes the skin to become itchy, dry and cracked.</string>
-    <string name="disease_psoriasis_title">Psoriasis</string>
-    <string name="disease_psoriasis_detail">Psoriasis is a skin disease that causes a rash with itchy, scaly patches, most commonly on the knees, elbows, trunk and scalp. </string>
-    <string name="disease_rosacea_title">Rosacea</string>
-    <string name="disease_rosacea_detail">Rosacea is a common skin condition that causes blushing or flushing and visible blood vessels in your face. </string>
+    <string name="disease_df_title">DERMATOFIBROMA</string>
+    <string name="disease_df_detail">Detailed Information on DF</string>
+    <string name="disease_bcc_title">BASAL CELL CARNINOMA</string>
+    <string name="disease_bcc_detail">Detailed Information on BCC</string>
+    <string name="disease_mel_title">MOLLUSCUM CONTAGIOSUM</string>
+    <string name="disease_mel_detail">Detailed Information on MEL </string>
+    <string name="disease_scc_title">SQUAMOUS CELL CARCINOMA</string>
+    <string name="disease_scc_detail">Detailed Information on SCC </string>
+    <string name="disease_nv_title">MELANOCYTIC NEVI</string>
+    <string name="disease_nv_detail">Detailed Information on NV</string>
+
 </resources>

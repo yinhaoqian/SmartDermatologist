@@ -16,6 +16,7 @@ class activity_main : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+            module_pytorch.loadModule(this,"skin_model.ptl")
         allViews.add(findViewById(R.id.main_logo))
         allViews.add(
             findViewById<ImageButton>(R.id.butt_main_startnewsession).also {

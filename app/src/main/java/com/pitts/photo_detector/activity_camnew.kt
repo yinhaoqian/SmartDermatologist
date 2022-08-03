@@ -39,8 +39,6 @@ class activity_camnew : AppCompatActivity() {
     private var fakeIndex: Int = 0
     private lateinit var cameraExecutor: ExecutorService
 
-/*    private lateinit var pytorchModule: module_pytorch*/
-
     private var PICK_IMAGE = 0
 
     @SuppressLint("SetTextI18n")
@@ -49,13 +47,6 @@ class activity_camnew : AppCompatActivity() {
         viewBinding = ActivityCamnewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         supportActionBar?.hide()
-        /*// Load the model file into torch model
-        try {
-            pytorchModule = module_pytorch(this, "big_model.ptl")
-        } catch (e: IOException) {
-            Log.e("TORCH", "Cannot found pth file from assets folder :(")
-            finish()
-        }*/
 
 
         // Request camera permissions

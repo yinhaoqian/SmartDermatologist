@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="1dp"
-            android:scaleType="fitStart"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_background" />
 
 
@@ -124,7 +124,6 @@
         android:layout_marginBottom="30dp"
         android:alpha="0"
         android:elevation="2dp"
-        android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#4A4A4A"
         android:textStyle="normal"

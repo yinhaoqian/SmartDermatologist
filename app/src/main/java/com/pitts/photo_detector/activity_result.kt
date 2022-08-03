@@ -10,9 +10,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.transition.Scene
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
@@ -35,8 +33,10 @@ class activity_result : AppCompatActivity() {
 
 
     private fun getResultStringFromBitmap(bitmap: Bitmap): String {
-        //TO-DO
-        return "DF"
+        val resultOfInference = module_pytorch.runInference(bitmap, this)
+        Log.d("ACTIVITY_RESULT", resultOfInference.toString())
+        animateToDoneScene()
+        return resultOfInference.toString()
     }
 
 
@@ -86,14 +86,14 @@ class activity_result : AppCompatActivity() {
         findViewById<TextView>(R.id.text_result_diseaseTitle).alpha = 1f
         findViewById<TextView>(R.id.text_result_diseaseDetail).alpha = 1f
         findViewById<ImageView>(R.id.imag_result_loading).alpha = 0f
-        TransitionManager.go(transitionPack.second, transitionPack.third)
+        TransitionManager.go(transitionPack.second,transitionPack.third)//transition animation temporarily deleted
     }
 
     private fun animateToProcessingScene() {
         findViewById<TextView>(R.id.text_result_diseaseTitle).alpha = 0f
         findViewById<TextView>(R.id.text_result_diseaseDetail).alpha = 0f
         findViewById<ImageView>(R.id.imag_result_loading).alpha = 1f
-        TransitionManager.go(transitionPack.first, transitionPack.third)
+        TransitionManager.go(transitionPack.first,transitionPack.third)//transition animation temporarily deleted
     }
 
 
@@ -123,14 +123,8 @@ class activity_result : AppCompatActivity() {
             it.typeface = Typeface.createFromAsset(assets, "lora_font.ttf")
             it.text = getString(R.string.disease_loading_detail)
         })
-        findViewById<CardView>(R.id.card_rcp_cardview).setOnClickListener {
-            Toast.makeText(
-                this,
-                "AET",
-                Toast.LENGTH_SHORT
-            ).show()
-            animateToProcessingScene()
-        }
+        getResultStringFromBitmap(scaledBitmap)
+
         // Load the model file into torch model
 /*        try {
             pytorchModule = module_pytorch(this, "big_model.ptl")
@@ -149,27 +143,4 @@ class activity_result : AppCompatActivity() {
         Handler().postDelayed(Runnable { animateToDoneScene() }, 500)
     }
 
-    override fun onPause() {
-        super.onPause()
-/*        Handler().postDelayed(Runnable { animateToProcessingScene() }, 500)
-        overridePendingTransition(0, 0)*/
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()/*
-        Handler().postDelayed(Runnable {
-            animateToProcessingScene()
-            overridePendingTransition(0, 0)
-
-        }, 5000)
-        Toast.makeText(
-            this,
-            "ON BACK PRESSED",
-            Toast.LENGTH_SHORT
-        ).show()*/
-
-/*        Handler().postDelayed(Runnable { animateToProcessingScene() }, 5000)
-        overridePendingTransition(0, 0)*/
-        /* overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)*/
-    }
 }

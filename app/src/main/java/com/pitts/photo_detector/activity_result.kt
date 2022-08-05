@@ -4,17 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.Scene
 import androidx.transition.Transition
-import androidx.transition.TransitionInflater
-import androidx.transition.TransitionManager
 
 class activity_result : AppCompatActivity() {
     private var allViews: MutableSet<View> = mutableSetOf()
@@ -35,7 +31,7 @@ class activity_result : AppCompatActivity() {
     private fun getResultStringFromBitmap(bitmap: Bitmap): String {
         val resultOfInference = module_pytorch.runInference(bitmap, this)
         Log.d("ACTIVITY_RESULT", resultOfInference.toString())
-        animateToDoneScene()
+/*        animateToDoneScene()*/
         return resultOfInference.toString()
     }
 
@@ -64,7 +60,7 @@ class activity_result : AppCompatActivity() {
             getString(returnedStringLocation?.second ?: R.string.disease_error)
     }
 
-    private fun initTransitionPack() {
+/*    private fun initTransitionPack() {
         val inflatingFrameLayoutAwaiting = findViewById<FrameLayout>(R.id.lout_result_frameLayout)
         val sceneProsessing = Scene.getSceneForLayout(
             inflatingFrameLayoutAwaiting,
@@ -80,9 +76,9 @@ class activity_result : AppCompatActivity() {
             .inflateTransition(R.transition.activity_result_scene_transition)
         transitionPack = Triple(sceneProsessing, sceneDone, transitionInBetween)
         sceneProsessing.enter()
-    }
+    }*/
 
-    private fun animateToDoneScene() {
+/*    private fun animateToDoneScene() {
         findViewById<TextView>(R.id.text_result_diseaseTitle).alpha = 1f
         findViewById<TextView>(R.id.text_result_diseaseDetail).alpha = 1f
         findViewById<ImageView>(R.id.imag_result_loading).alpha = 0f
@@ -94,7 +90,7 @@ class activity_result : AppCompatActivity() {
         findViewById<TextView>(R.id.text_result_diseaseDetail).alpha = 0f
         findViewById<ImageView>(R.id.imag_result_loading).alpha = 1f
         TransitionManager.go(transitionPack.first,transitionPack.third)//transition animation temporarily deleted
-    }
+    }*/
 
 
     private fun getTransferredBitmap(): Bitmap {
@@ -106,8 +102,8 @@ class activity_result : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result_scene_root)
-        initTransitionPack()
+        setContentView(R.layout.activity_result_scene_done)
+/*        initTransitionPack()*/
         supportActionBar?.hide()
         val scaledBitmap: Bitmap = getTransferredBitmap()
         imageBuffer = scaledBitmap
@@ -123,7 +119,8 @@ class activity_result : AppCompatActivity() {
             it.typeface = Typeface.createFromAsset(assets, "lora_font.ttf")
             it.text = getString(R.string.disease_loading_detail)
         })
-        getResultStringFromBitmap(scaledBitmap)
+        val inferedDiseaseString = getResultStringFromBitmap(scaledBitmap)
+        displayDisease(inferedDiseaseString)
 
         // Load the model file into torch model
 /*        try {
@@ -137,10 +134,10 @@ class activity_result : AppCompatActivity() {
         }.run()*/
     }
 
-    override fun onResume() {
+/*    override fun onResume() {
         super.onResume()
         displayDisease("DF")
         Handler().postDelayed(Runnable { animateToDoneScene() }, 500)
-    }
+    }*/
 
 }

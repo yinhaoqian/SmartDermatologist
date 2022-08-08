@@ -1,17 +1,5 @@
 <resources>
     <string name="app_name">Photo_Detector</string>
-    <string name="disease_loading_title">Calculating....</string>
-    <string name="disease_loading_detail">Results will be shown once the calculation is complete…</string>
-    <string name="disease_error">ERROR</string>
-    <string name="disease_df_title">DERMATOFIBROMA</string>
-    <string name="disease_df_detail">Detailed Information on DF</string>
-    <string name="disease_bcc_title">BASAL CELL CARNINOMA</string>
-    <string name="disease_bcc_detail">Detailed Information on BCC</string>
-    <string name="disease_mel_title">MOLLUSCUM CONTAGIOSUM</string>
-    <string name="disease_mel_detail">Detailed Information on MEL </string>
-    <string name="disease_scc_title">SQUAMOUS CELL CARCINOMA</string>
-    <string name="disease_scc_detail">Detailed Information on SCC </string>
-    <string name="disease_nv_title">MELANOCYTIC NEVI</string>
-    <string name="disease_nv_detail">Detailed Information on NV</string>
+    <string name="disease_detail_general">DISEASES DETAILS COMING SOON...</string>
 
 </resources>

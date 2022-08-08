@@ -9,30 +9,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.transition.Scene
-import androidx.transition.Transition
 
 class activity_result : AppCompatActivity() {
     private var allViews: MutableSet<View> = mutableSetOf()
     private var imageBuffer: Bitmap? = null
-    private lateinit var pytorchModule: module_pytorch
-    private val indexDict: HashMap<String, Pair<Int, Int>> = hashMapOf(
-        "LOAD" to Pair(R.string.disease_loading_title, R.string.disease_loading_detail),
-        "ERR" to Pair(R.string.disease_error, R.string.disease_error),
-        "DF" to Pair(R.string.disease_df_title, R.string.disease_df_detail),
-        "BCC" to Pair(R.string.disease_bcc_title, R.string.disease_bcc_detail),
-        "MEL" to Pair(R.string.disease_mel_title, R.string.disease_mel_detail),
-        "SCC" to Pair(R.string.disease_scc_title, R.string.disease_scc_detail),
-        "NV" to Pair(R.string.disease_nv_title, R.string.disease_nv_detail)
-    )
-    private lateinit var transitionPack: Triple<Scene, Scene, Transition>
+/*    private lateinit var transitionPack: Triple<Scene, Scene, Transition>*/
 
 
-    private fun getResultStringFromBitmap(bitmap: Bitmap): String {
-        val resultOfInference = module_pytorch.runInference(bitmap, this)
-        Log.d("ACTIVITY_RESULT", resultOfInference.toString())
-/*        animateToDoneScene()*/
-        return resultOfInference.toString()
+    private fun getResultIndexFromBitmap(bitmap: Bitmap): Int {
+        /*        animateToDoneScene()*/
+        return module_pytorch.runInference(bitmap, this).also {
+            Log.d("Q_ACTIVITY_RESULT", "GETRESULTINDEXFROMBITMAP(): RECEIVED DECISION $it")
+        }
     }
 
 
@@ -52,12 +40,12 @@ class activity_result : AppCompatActivity() {
             Toast.makeText(this, "IAD ENDED", Toast.LENGTH_SHORT).show()
         }
     */
-    private fun displayDisease(diseaseStringKey: String) {
-        val returnedStringLocation: Pair<Int, Int>? = indexDict[diseaseStringKey]
-        findViewById<TextView>(R.id.text_result_diseaseTitle).text =
-            getString(returnedStringLocation?.first ?: R.string.disease_error)
-        findViewById<TextView>(R.id.text_result_diseaseDetail).text =
-            getString(returnedStringLocation?.second ?: R.string.disease_error)
+    private fun displayDisease(diseaseIndexKey: Int) {
+        module_mapping.getPairFromIndex(diseaseIndexKey).let {
+            Log.d("Q_ACTIVITY_RESULT", "DISPLAYDISEASE(): OBTAINED ${it.first} , ${it.second}")
+            findViewById<TextView>(R.id.text_result_diseaseTitle).text = it.first
+            findViewById<TextView>(R.id.text_result_diseaseDetail).text = it.second
+        }
     }
 
 /*    private fun initTransitionPack() {
@@ -95,7 +83,7 @@ class activity_result : AppCompatActivity() {
 
     private fun getTransferredBitmap(): Bitmap {
         val picturePath = intent.getStringExtra("path")
-        Log.e("debug", picturePath.toString())
+        Log.d("Q_ACTIVITY_RESULT", "GETTRANSFERREDBITMAP(): SAVED BMP TO ${picturePath.toString()}")
         val bm = BitmapFactory.decodeFile(picturePath.toString())
         return Bitmap.createScaledBitmap(bm, 200, 200, true)
     }
@@ -112,15 +100,18 @@ class activity_result : AppCompatActivity() {
         })
         allViews.add(findViewById<TextView>(R.id.text_result_diseaseTitle).also {
             it.typeface = Typeface.createFromAsset(assets, "lora_font.ttf")
-            it.text = getString(R.string.disease_loading_title)
+            it.text = "Calculating..."
         }
         )
         allViews.add(findViewById<TextView>(R.id.text_result_diseaseDetail).also {
             it.typeface = Typeface.createFromAsset(assets, "lora_font.ttf")
-            it.text = getString(R.string.disease_loading_detail)
+            it.text = "Good things coming soon!"
         })
-        val inferedDiseaseString = getResultStringFromBitmap(scaledBitmap)
-        displayDisease(inferedDiseaseString)
+        getResultIndexFromBitmap(scaledBitmap).let {
+
+            displayDisease(it)
+        }
+
 
         // Load the model file into torch model
 /*        try {

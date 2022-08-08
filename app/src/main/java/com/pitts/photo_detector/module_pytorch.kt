@@ -3,7 +3,6 @@ package com.pitts.photo_detector
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import android.widget.Toast
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
 import org.pytorch.Module
@@ -21,27 +20,28 @@ class module_pytorch(context: Context, modelName: String) {
         private lateinit var ptModule: Module
         fun loadModule(context: Context, modelName: String) {
             ptModule = LiteModuleLoader.load(assetFilePath(context, modelName))
+            Log.d("Q_MODULE_PYTORCH", "LOADMODULE(): LITE MODEL SUCCESSFULLY MOUNTED.")
             isReady = true
         }
 
         fun runInference(bitmap: Bitmap, context: Context): Int {
             assert(isReady)
             var timeStamp: Long = Calendar.getInstance().timeInMillis
-            val TENSOR_INPUT = bitmapToTensors(bitmap)
-            val TENSOR_OUTPUT = runInferenceTensor2Tensor(TENSOR_INPUT)
-            val FARRAY_OUTPUT = tensorsToFloatArray(TENSOR_OUTPUT)
-            FARRAY_OUTPUT.forEach { Log.d("PYTORCH_ARRAY", it.toString()) }
+            val tensorInput = bitmapToTensors(bitmap)
+            val tensorOutput = runInferenceTensor2Tensor(tensorInput)
+            val fArrayOutput = tensorsToFloatArray(tensorOutput)
+            fArrayOutput.forEachIndexed { index, fl ->
+                Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): OBTAINED SCORE[${index}] = $fl ")
+            }
             timeStamp = Calendar.getInstance().timeInMillis - timeStamp
-            Toast.makeText(
-                context,
-                "TIME SPENT ON INFERENCE: ${timeStamp.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
-            return locateMaxIndex(FARRAY_OUTPUT)
+            Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): TIME ELAPSED IS $timeStamp MILISECS")
+            return locateMaxIndex(fArrayOutput)
         }
 
         private fun locateMaxIndex(arr: FloatArray): Int {
-            return arr.indexOfFirst { it == arr.maxOrNull() }
+            return arr.indexOfFirst { it == arr.maxOrNull() }.also {
+                Log.d("Q_MODULE_PYTORCH", "LOCATEMAXINDEX(): DECISION IS INDEX $it")
+            }
         }
 
         private fun bitmapToTensors(bitmap: Bitmap): Tensor {

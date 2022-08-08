@@ -2,6 +2,7 @@ package com.pitts.photo_detector
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
@@ -10,10 +11,11 @@ import org.pytorch.Tensor
 import org.pytorch.torchvision.TensorImageUtils
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
-class module_pytorch(context: Context, modelName: String) {
+class module_pytorch() {
 
     companion object {
         private var isReady: Boolean = false
@@ -89,6 +91,49 @@ class module_pytorch(context: Context, modelName: String) {
                 e.printStackTrace()
             }
             return ""
+        }
+
+        fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+            var width = image.width
+            var height = image.height
+            val bitmapRatio = width.toFloat() / height.toFloat()
+            if (bitmapRatio > 1) {
+                width = maxSize
+                height = (width / bitmapRatio).toInt()
+            } else {
+                height = maxSize
+                width = (height * bitmapRatio).toInt()
+            }
+            return Bitmap.createScaledBitmap(image, width, height, true)
+        }
+
+        fun obtainBitmapFromFilePath(pictureFilePath: String): Bitmap {
+            val rawBitmap = BitmapFactory.decodeFile(pictureFilePath.toString())
+            Log.d(
+                "Q_MODULE_PYTORCH",
+                "OBTAINBITMAPFROMFILEPATH():  ${pictureFilePath.toString()}"
+            )
+            return Bitmap.createScaledBitmap(
+                rawBitmap,
+                module_param.bitmapScaleFactor.first,
+                module_param.bitmapScaleFactor.second,
+                true
+            )
+        }
+
+        fun obtainBitmapFromAsset(context: Context, pictureFilePath: String): Bitmap {
+            try {
+                val inputStream: InputStream = context.assets.open(pictureFilePath)
+                val rawBitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+                return Bitmap.createScaledBitmap(
+                    rawBitmap,
+                    module_param.bitmapScaleFactor.first,
+                    module_param.bitmapScaleFactor.second,
+                    true
+                )
+            } catch (ioException: IOException) {
+                throw RuntimeException("MODULE_PYTORCH FILE OPEN FAILED")
+            }
         }
     }
 

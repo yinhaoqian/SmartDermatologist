@@ -40,7 +40,7 @@ class module_mapping {
 
         fun getPairFromIndex(index: Int): Pair<String, String> {
             if(!isReady){
-                throw java.lang.RuntimeException("MODULE_MAPPING NOT READY")
+                throw RuntimeException("MODULE_MAPPING NOT READY")
             }
             Log.d("Q_MODULE_MAPPING", "GETPAIRFROMINDEX(): QUERYING INDEX $index")
             val queriedStringPair: Pair<String, String>? = map[index]

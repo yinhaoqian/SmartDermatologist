@@ -1,7 +1,6 @@
 package com.pitts.photo_detector
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -82,10 +81,12 @@ class activity_result : AppCompatActivity() {
 
 
     private fun getTransferredBitmap(): Bitmap {
-        val picturePath = intent.getStringExtra("path")
-        Log.d("Q_ACTIVITY_RESULT", "GETTRANSFERREDBITMAP(): SAVED BMP TO ${picturePath.toString()}")
-        val bm = BitmapFactory.decodeFile(picturePath.toString())
-        return Bitmap.createScaledBitmap(bm, 200, 200, true)
+        val pictureFilePath: String? = intent.getStringExtra("path")
+        if (pictureFilePath == null) {
+            throw RuntimeException("ACTIVITY_RESULT PICTURE FILE PATH READ FAILED")
+        } else {
+            return module_pytorch.obtainBitmapFromFilePath(pictureFilePath)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

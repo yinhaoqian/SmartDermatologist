@@ -264,10 +264,10 @@ class activity_camnew : AppCompatActivity() {
         while (capturedBitmap == null) {
             capturedBitmap = viewBinding.prevCamnewPreviewView.bitmap
         }
-        return getResizedBitmap(capturedBitmap, 500)
+        return module_pytorch.getResizedBitmap(capturedBitmap, 500)
     }
 
-    private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+/*    private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
         var width = image.width
         var height = image.height
         val bitmapRatio = width.toFloat() / height.toFloat()
@@ -279,7 +279,7 @@ class activity_camnew : AppCompatActivity() {
             width = (height * bitmapRatio).toInt()
         }
         return Bitmap.createScaledBitmap(image, width, height, true)
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

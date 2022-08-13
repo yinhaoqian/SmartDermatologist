@@ -93,7 +93,7 @@ class module_pytorch() {
             return ""
         }
 
-        fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+        private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
             var width = image.width
             var height = image.height
             val bitmapRatio = width.toFloat() / height.toFloat()

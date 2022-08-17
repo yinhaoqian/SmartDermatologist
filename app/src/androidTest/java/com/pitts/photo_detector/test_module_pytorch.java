@@ -26,7 +26,7 @@ public class test_module_pytorch {
 
     private final Context appContext = InstrumentationRegistry.getTargetContext();
     private final Context androidTestContext = InstrumentationRegistry.getContext();
-    private final int timeout = 10000;
+    private final int timeout = 10;
     private final kotlin.Pair<Integer, Integer> resizeDimension = new kotlin.Pair<>(64, 72);
 
     private Integer injectToTorch(String fn, kotlin.Pair<Boolean, Boolean> resizeParam) {
@@ -48,17 +48,18 @@ public class test_module_pytorch {
             if (resizeParam.getFirst()) {
                 bitmap = Bitmap.createScaledBitmap(bitmap, resizeDimension.getFirst(),
                         resizeDimension.getSecond(), resizeParam.getSecond());
+                Log.d("Q_TEST_MODULE_PYTORCH", "MATCHTEST() RESIZING CALLED");
             }
             return module_pytorch.Companion.runInference(bitmap, androidTestContext);
         };
         ExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         Future<Integer> future = scheduledExecutorService.submit(callable);
         try {
-            toReturn = future.get(timeout, TimeUnit.MILLISECONDS);
+            toReturn = future.get(timeout, TimeUnit.SECONDS);
             Log.d("Q_TEST_MODULE_PYTORCH", "MATCHTEST() INFERENCE RETURNED A DECISION");
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
-            Log.d("Q_TEST_MODULE_PYTORCH", "MATCHTEST() GENERAL INTERRUPTIONS OCCURED");
+            Log.d("Q_TEST_MODULE_PYTORCH", "MATCHTEST() GENERAL INTERRUPTIONS OCCURRED");
         } catch (TimeoutException e) {
             future.cancel(true);
             Log.d("Q_TEST_MODULE_PYTORCH", "MATCHTEST() TIME-OUT THREAD CANCELLED");

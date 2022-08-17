@@ -1,3 +1,4 @@
 # SUMM2022_ECE1898
 DISCLAMIER
 WE DO NOT HOLD COPYRIGHTS TO ANY DISEASE PICTURES INCLUDED IN THE TEST FOLDERS. 
+![alt text](https://github.com/chien916/SUMM2022_ECE1898/edit/main/_readme/_preview1.jpg?raw=true)

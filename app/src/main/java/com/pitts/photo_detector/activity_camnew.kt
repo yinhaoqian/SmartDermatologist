@@ -6,7 +6,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -24,6 +24,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.pitts.photo_detector.databinding.ActivityCamnewBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -82,6 +83,15 @@ class activity_camnew : AppCompatActivity() {
         }
         /*allViews.add(viewBinding.prevCamnewPreviewView)*/
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+
+        Snackbar.make(
+            findViewById(R.id.card_camnew_cardview),
+            "Squamous Cell Carcinoma",
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction("Details") {}
+            .setActionTextColor(Color.DKGRAY).show()
+
     }
 
     private fun takePhoto() {
@@ -259,13 +269,13 @@ class activity_camnew : AppCompatActivity() {
         fakeIndex = 0
     }
 
-    fun getBitmapFromPreviewview(): Bitmap {
+/*    fun getBitmapFromPreviewview(): Bitmap {
         var capturedBitmap: Bitmap? = null
         while (capturedBitmap == null) {
             capturedBitmap = viewBinding.prevCamnewPreviewView.bitmap
         }
         return module_pytorch.getResizedBitmap(capturedBitmap, 500)
-    }
+    }*/
 
 /*    private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
         var width = image.width

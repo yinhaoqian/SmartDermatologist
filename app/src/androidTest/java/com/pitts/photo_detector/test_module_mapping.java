@@ -36,10 +36,10 @@ public class test_module_mapping {
         Assert.assertEquals(module_mapping.Companion.getPairFromIndex(3).getSecond(), "SQUAMOUS CELL CARCINOMAS");
         Assert.assertEquals(module_mapping.Companion.getPairFromIndex(4).getFirst(), "NV");
         Assert.assertEquals(module_mapping.Companion.getPairFromIndex(4).getSecond(), "MELANOCYTIC NEVUS");
-        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(5).getFirst(), "ERROR_ABBR");
-        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(5).getSecond(), "ERROR_TITL");
-        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(-1).getFirst(), "ERROR_ABBR");
-        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(-1).getSecond(), "ERROR_TITL");
+        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(5).getFirst(), "ERR_ABBR");
+        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(5).getSecond(), "ERR_TITL");
+        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(-1).getFirst(), "ERR_ABBR");
+        Assert.assertEquals(module_mapping.Companion.getPairFromIndex(-1).getSecond(), "ERR_TITL");
 /*      0, DF, DERMATOFIBROMA
         1, BCC, BASAL CELL CAMINOMA
         2, MEL, MELANOMA

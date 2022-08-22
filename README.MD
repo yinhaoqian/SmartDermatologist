@@ -17,11 +17,8 @@ IMPORTANT: WE DO NOT HOLD COPYRIGHTS TO ANY DISEASE PICTURES INCLUDED IN THE TES
 [![Watch the video](https://img.youtube.com/vi/4BAKu05eOc4/maxresdefault.jpg)](https://youtu.be/4BAKu05eOc4)
 
 # SCREENSHOTS
-![alt text](https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview1.jpg?raw=true)
-![alt text](https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview2.jpg?raw=true)
-![alt text](https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview3.jpg?raw=true)
 <p float="left">
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview1.jpg?raw=true" width="100" />
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview2.jpg?raw=true" width="100" /> 
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview3.jpg?raw=true" width="100" />
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview1.jpg?raw=true" />
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview2.jpg?raw=true" /> 
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview3.jpg?raw=true" />
 </p>

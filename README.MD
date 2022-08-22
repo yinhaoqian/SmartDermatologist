@@ -18,7 +18,7 @@ IMPORTANT: WE DO NOT HOLD COPYRIGHTS TO ANY DISEASE PICTURES INCLUDED IN THE TES
 
 # SCREENSHOTS
 <p float="left">
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview1.jpg?raw=true" width=400/>
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview2.jpg?raw=true" width=400/> 
-  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview3.jpg?raw=true" width=400/>
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview1.jpg?raw=true" width=300/>
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview2.jpg?raw=true" width=300/> 
+  <img src="https://github.com/chien916/SUMM2022_ECE1898/blob/main/_readme/_preview3.jpg?raw=true" width=300/>
 </p>

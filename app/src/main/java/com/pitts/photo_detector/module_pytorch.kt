@@ -47,11 +47,12 @@ class module_pytorch() {
         }
 
         private fun bitmapToTensors(bitmap: Bitmap): Tensor {
-            return TensorImageUtils.bitmapToFloat32Tensor(
+            val toReturn = TensorImageUtils.bitmapToFloat32Tensor(
                 bitmap,
                 TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
                 TensorImageUtils.TORCHVISION_NORM_STD_RGB
             )
+            return toReturn
         }
 
         private fun tensorsToFloatArray(tensor: Tensor): FloatArray {
@@ -59,7 +60,18 @@ class module_pytorch() {
         }
 
         private fun runInferenceTensor2Tensor(tensor: Tensor): Tensor {
-            return ptModule.forward(IValue.from(tensor)).toTensor()
+            val ts1: Tensor = tensor
+/*            ts1.dataAsFloatArray.forEachIndexed { index, fl ->
+                if (index < 1000) {
+                    Log.d("Q_TS1", "${index} _ ${fl}")
+                }
+
+            }*/
+            val ts2: Tensor = ptModule.forward(IValue.from(ts1)).toTensor()
+/*            ts2.dataAsFloatArray.forEachIndexed { index, fl ->
+                Log.d("Q_TS1", "${index} _ ${fl}")
+            }*/
+            return ts2
         }
 
         /**

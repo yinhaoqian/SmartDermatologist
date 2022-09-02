@@ -22,6 +22,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import kotlin.Pair;
+
 public class test_module_pytorch {
 
     private final Context appContext = InstrumentationRegistry.getTargetContext();
@@ -68,7 +70,6 @@ public class test_module_pytorch {
     }
 
     @Before
-
     public void initParam() {
         module_param.Companion.initParametersByDefault(appContext);
     }
@@ -82,16 +83,18 @@ public class test_module_pytorch {
 
     @Test
     public void matchTest() {
-        List<kotlin.Pair<Boolean, Boolean>> resizeParamSequence = Arrays.asList(
-                new kotlin.Pair<>(false, false),//NO RESIZE
-                new kotlin.Pair<>(true, false),//RESIZE WITHOUT FILTER
-                new kotlin.Pair<>(true, true)//RESIZE WITH FILTER
+        List<Pair<Boolean, Boolean>> resizeParamSequence = Arrays.asList(
+                new Pair<>(false, false),//NO RESIZE
+                new Pair<>(true, false),//RESIZE WITHOUT FILTER
+                new Pair<>(true, true)//RESIZE WITH FILTER
         );
         List<String> jpgNameSequence = Arrays.asList(
-                "TEST/_TEST_01.jpg",
+                /*"TEST/_TEST_01.png",
                 "TEST/_TEST_02.jpg",
                 "TEST/_TEST_OVERSIZE.jpg",
-                "TEST/_TEST_UNDERSIZE.jpg"
+                "TEST/_TEST_UNDERSIZE.jpg"*/
+                /*"TEST/_WHITE.png"*/
+                "TEST/_ALEX_TEST.jpg"
         );
         jpgNameSequence.forEach((it_jns) -> {
             resizeParamSequence.forEach((it_rps) -> {

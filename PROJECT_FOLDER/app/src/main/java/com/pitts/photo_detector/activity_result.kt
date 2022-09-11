@@ -85,7 +85,7 @@ class activity_result : AppCompatActivity() {
         if (pictureFilePath == null) {
             throw RuntimeException("ACTIVITY_RESULT PICTURE FILE PATH READ FAILED")
         } else {
-            return module_pytorch.obtainBitmapFromFilePath(pictureFilePath)
+            return module_imageprocessing.obtainBitmapFromFilePath(pictureFilePath)
         }
     }
 

@@ -76,4 +76,13 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.8.0'
     implementation 'org.tensorflow:tensorflow-lite-gpu:2.8.0'
     implementation 'org.tensorflow:tensorflow-lite-support:2.8.0'*/
+    // Tensorflow Lite dependencies
+/*    implementation 'org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.2'
+    implementation 'com.google.android.gms:play-services-tflite-gpu:16.0.0'
+    implementation 'com.github.mozhimen.TFLiteLoader:objectdetector:1.0.2'*/
+
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.0'
+    // Import the GPU delegate plugin Library for GPU inference
+    implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.9.0'
 }

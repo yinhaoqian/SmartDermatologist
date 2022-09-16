@@ -6,7 +6,6 @@ import android.util.Log
 import org.pytorch.IValue
 import org.pytorch.LiteModuleLoader
 import org.pytorch.Module
-import org.pytorch.Tensor
 import org.pytorch.torchvision.TensorImageUtils
 import java.util.*
 
@@ -24,86 +23,30 @@ class module_pytorch() {
 
         fun runInference(bitmap: Bitmap, context: Context): Int {
             assert(isReady)
+            //记录开始方法被叫时间
             var timeStamp: Long = Calendar.getInstance().timeInMillis
-            val tensorInput = bitmapToTensors(bitmap)
-            val tensorOutput = runInferenceTensor2Tensor(tensorInput)
-            val fArrayOutput = tensorsToFloatArray(tensorOutput)
-            fArrayOutput.forEachIndexed { index, fl ->
-                Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): OBTAINED SCORE[${index}] = $fl ")
-            }
-            timeStamp = Calendar.getInstance().timeInMillis - timeStamp
-            Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): TIME ELAPSED IS $timeStamp MILISECS")
-            return locateMaxIndex(fArrayOutput)
-        }
-
-        private fun locateMaxIndex(arr: FloatArray): Int {
-            return arr.indexOfFirst { it == arr.maxOrNull() }.also {
-                Log.d("Q_MODULE_PYTORCH", "LOCATEMAXINDEX(): DECISION IS INDEX $it")
-            }
-        }
-
-        private fun bitmapToTensors(bitmap: Bitmap): Tensor {
-            val toReturn = TensorImageUtils.bitmapToFloat32Tensor(
+            //将Bitmap转换成Tensor以便输入
+            val tensorInput = TensorImageUtils.bitmapToFloat32Tensor(
                 bitmap,
                 TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
                 TensorImageUtils.TORCHVISION_NORM_STD_RGB
             )
-            return toReturn
-        }
-
-        private fun tensorsToFloatArray(tensor: Tensor): FloatArray {
-            return tensor.dataAsFloatArray
-        }
-
-        private fun runInferenceTensor2Tensor(tensor: Tensor): Tensor {
-            val ts1: Tensor = tensor
-/*            ts1.dataAsFloatArray.forEachIndexed { index, fl ->
-                if (index < 1000) {
-                    Log.d("Q_TS1", "${index} _ ${fl}")
-                }
-
-            }*/
-            val ts2: Tensor = ptModule.forward(IValue.from(ts1)).toTensor()
-/*            ts2.dataAsFloatArray.forEachIndexed { index, fl ->
-                Log.d("Q_TS1", "${index} _ ${fl}")
-            }*/
-            return ts2
-        }
-
-
-    }
-
-/*    private var bitmap: Bitmap? = null
-    private var floatArray: FloatArray? = null*/
-/*    public var inferator: Runnable = Runnable {
-        floatArray = bitmap?.run {
-            bitmap = null
-            runInference(this).also {
-                Log.i("TORCH", it.toString())
+            //将转换好的输入Tensor进行计算，接受一个输出Tensor
+            val tensorOutput = ptModule.forward(IValue.from(tensorInput)).toTensor()
+            //将输出的Tensor转换成Array<Float>以比较大小
+            val floatArrayOutput = tensorOutput.dataAsFloatArray
+            floatArrayOutput.forEachIndexed { index, fl ->
+                Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): OBTAINED SCORE[${index}] = $fl ")
             }
+            //记录方法计算结束时间点，并取差得到运行时间
+            timeStamp = Calendar.getInstance().timeInMillis - timeStamp
+            Log.d("Q_MODULE_PYTORCH", "RUNINFERENCE(): TIME ELAPSED IS $timeStamp MILISECS")
+            //将最大分数的索引值记录下来，返回给叫函数者
+            val indexOfMaxScore =
+                floatArrayOutput.indexOfFirst { it == floatArrayOutput.maxOrNull() }
+            Log.d("Q_MODULE_PYTORCH", "LOCATEMAXINDEX(): DECISION IS INDEX $indexOfMaxScore")
+            return indexOfMaxScore
         }
 
-    }*/
-
-/*    init {
-
-    }*/
-/*
-    fun writeBitmap(bitmap: Bitmap) {
-        while (this.bitmap != null) {
-            Log.d("TORCH", "Inject Task Scheduled but waiting")
-        }
-        this.bitmap = bitmap
     }
-
-    fun readFloatArray(): FloatArray {
-        while (this.floatArray == null) {
-            Log.d("TORCH", "Extract Task Scheduled but waiting")
-        }
-        return this.floatArray!!.also {
-            this.floatArray = null
-        }
-    }*/
-
-
 }

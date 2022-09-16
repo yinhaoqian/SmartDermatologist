@@ -12,18 +12,38 @@ import java.io.InputStream
 class module_imageprocessing {
     companion object {
         fun obtainBitmapFromAsset(context: Context, pictureFilePath: String): Bitmap {
+            val inputStream: InputStream
             try {
-                val inputStream: InputStream = context.assets.open(pictureFilePath)
-                val rawBitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
-                return Bitmap.createScaledBitmap(
-                    rawBitmap,
-                    module_param.bitmapScaleFactor.first,
-                    module_param.bitmapScaleFactor.second,
-                    true
-                )
+                inputStream = context.assets.open(pictureFilePath)
+
             } catch (ioException: IOException) {
-                throw RuntimeException("MODULE_PYTORCH FILE OPEN FAILED")
+                throw RuntimeException("OBTAINBITMAPFROMASSET() IOEXCEPTION")
             }
+            var bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+            if (module_param.pytorch_param_useScaling) {
+                bitmap = Bitmap.createScaledBitmap(
+                    bitmap,
+                    module_param.pytorch_param_bitmapScaleFactor.first,
+                    module_param.pytorch_param_bitmapScaleFactor.second,
+                    module_param.pytorch_param_useFilterWhileScaling
+                )
+            }
+            Log.d(
+                "Q_IMAGEPROCESSING", "obtainBitmapFromAsset() -file "
+                        + pictureFilePath
+                        + if (module_param.pytorch_param_useScaling) {
+                    StringBuilder()
+                        .append(" -resize ")
+                        .append(module_param.pytorch_param_bitmapScaleFactor.first)
+                        .append(" ")
+                        .append(module_param.pytorch_param_bitmapScaleFactor.second)
+                        .append(
+                            if (module_param.pytorch_param_useFilterWhileScaling) " -filter " else String()
+                        )
+                        .toString()
+                } else String()
+            )
+            return bitmap
         }
 
         fun obtainBitmapFromFilePath(pictureFilePath: String): Bitmap {
@@ -34,24 +54,10 @@ class module_imageprocessing {
             )
             return Bitmap.createScaledBitmap(
                 rawBitmap,
-                module_param.bitmapScaleFactor.first,
-                module_param.bitmapScaleFactor.second,
+                module_param.pytorch_param_bitmapScaleFactor.first,
+                module_param.pytorch_param_bitmapScaleFactor.second,
                 true
             )
-        }
-
-        private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
-            var width = image.width
-            var height = image.height
-            val bitmapRatio = width.toFloat() / height.toFloat()
-            if (bitmapRatio > 1) {
-                width = maxSize
-                height = (width / bitmapRatio).toInt()
-            } else {
-                height = maxSize
-                width = (height * bitmapRatio).toInt()
-            }
-            return Bitmap.createScaledBitmap(image, width, height, true)
         }
 
         /**

@@ -9,8 +9,7 @@ import java.io.InputStreamReader
 class module_mapping {
 
     companion object {
-        private var map: HashMap<Int, Pair<String, String>> =
-            HashMap<Int, Pair<String, String>>()
+        private var map: HashMap<Int, Pair<String, String>> = HashMap()
         var isReady: Boolean = false
         fun init(context: Context, csvFileName: String) {
             var bufferedReader: BufferedReader? = null

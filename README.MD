@@ -1,3 +1,4 @@
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 # INFORMATION
 __INSTITUTION:__ UNIVERSITY OF PITTSBURGH  
 __COLLABORATORS:__   _(DIRECTED BY DR.HU)_ ZHIMIN LI, QIRAN LI    

@@ -38,8 +38,8 @@ class module_pytorch() {
             //将Bitmap转换成Tensor以便输入
             val tensorInput = TensorImageUtils.bitmapToFloat32Tensor(
                 bitmap,
-                TensorImageUtils.TORCHVISION_NORM_MEAN_RGB,
-                TensorImageUtils.TORCHVISION_NORM_STD_RGB
+                floatArrayOf(0.0f, 0.0f, 0.0f),
+                floatArrayOf(1.0f, 1.0f, 1.0f),
             )
             //将转换好的输入Tensor进行计算，接受一个输出Tensor
             val tensorOutput = ptModule.forward(IValue.from(tensorInput)).toTensor()

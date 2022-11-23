@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +14,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,37 +60,37 @@ class activity_camnew : AppCompatActivity() {
         }
 
         // Set up the listeners for take photo and video capture buttons
-        allViews.add(viewBinding.buttCamnewTakephoto.also {
-            it.setOnClickListener {
-                val animation: Animation =
-                    AnimationUtils.loadAnimation(this, R.anim.buttonpush_bounce)
-                (it as ImageView).startAnimation(animation)
-                takePhoto()
-            }
-        })
-        allViews.add(viewBinding.buttCamnewSwitchcamera.also {
-            it.setOnClickListener { fakeIndex += 1 }
-        })
-        allViews.add(viewBinding.buttCamnewImportfromgallery.also {
-            it.setOnClickListener {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "image/*"
-                startActivityForResult(intent, PICK_IMAGE)
-            }
-        })
-        viewBinding.cardCamnewCardview.setOnClickListener {
-            fakeIndex += 1
-        }
+//        allViews.add(viewBinding.buttCamnewTakephoto.also {
+//            it.setOnClickListener {
+//                val animation: Animation =
+//                    AnimationUtils.loadAnimation(this, R.anim.buttonpush_bounce)
+//                (it as ImageView).startAnimation(animation)
+//                takePhoto()
+//            }
+//        })
+//        allViews.add(viewBinding.buttCamnewSwitchcamera.also {
+//            it.setOnClickListener { fakeIndex += 1 }
+//        })
+//        allViews.add(viewBinding.buttCamnewImportfromgallery.also {
+//            it.setOnClickListener {
+//                val intent = Intent(Intent.ACTION_GET_CONTENT)
+//                intent.type = "image/*"
+//                startActivityForResult(intent, PICK_IMAGE)
+//            }
+//        })
+//        viewBinding.cardCamnewCardview.setOnClickListener {
+//            fakeIndex += 1
+//        }
         /*allViews.add(viewBinding.prevCamnewPreviewView)*/
         cameraExecutor = Executors.newSingleThreadExecutor()
 
 
-        Snackbar.make(
-            findViewById(R.id.card_camnew_cardview),
-            "Squamous Cell Carcinoma",
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction("Details") {}
-            .setActionTextColor(Color.DKGRAY).show()
+//        Snackbar.make(
+//            findViewById(R.id.card_camnew_cardview),
+//            "Squamous Cell Carcinoma",
+//            Snackbar.LENGTH_INDEFINITE
+//        ).setAction("Details") {}
+//            .setActionTextColor(Color.DKGRAY).show()
 
     }
 
@@ -264,18 +264,18 @@ class activity_camnew : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         allViews.forEach {
-            it.animate().alpha(0.0f).setDuration(1000).start();
+//            it.animate().alpha(0.0f).setDuration(1000).start();
         }
         fakeIndex = 0
     }
 
-/*    fun getBitmapFromPreviewview(): Bitmap {
+    fun getBitmapFromPreviewview(): Bitmap {
         var capturedBitmap: Bitmap? = null
         while (capturedBitmap == null) {
             capturedBitmap = viewBinding.prevCamnewPreviewView.bitmap
         }
-        return module_pytorch.getResizedBitmap(capturedBitmap, 500)
-    }*/
+        return capturedBitmap
+    }
 
 /*    private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
         var width = image.width

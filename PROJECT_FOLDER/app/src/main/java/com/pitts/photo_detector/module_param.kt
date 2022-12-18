@@ -11,11 +11,11 @@ class module_param {
         }
 
         //PYTORCH参数（按需求调整）
-        public var pytorch_param_modelName: String = "model.ptl"
+        public var pytorch_param_modelName: String = "catAndDog.ptl"
         public var pytorch_param_useLiteLoader: Boolean = false
-        public var pytorch_param_useScaling: Boolean = true
+        public var pytorch_param_useScaling: Boolean = false
         public var pytorch_param_useFilterWhileScaling: Boolean = false
-        public var pytorch_param_bitmapScaleFactor: Pair<Int, Int> = Pair(72, 64)
+        public var pytorch_param_bitmapScaleFactor: Pair<Int, Int> = Pair(224, 224)
 
 
         //TENSORFLOW参数（按需求调整）
